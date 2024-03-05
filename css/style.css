@@ -17,6 +17,14 @@ body {
   grid-template-rows: [uno] 92% [dos] 8% [tres];
 }
 
+#userArea {
+  background-color: #1b1557;
+  position: fixed;
+  width: 10%;
+  z-index: 1000;
+  color: white;
+}
+
 .barra {
   background-color: #1b1557;
   position: fixed;
@@ -375,3 +383,125 @@ main {
 #chdish-list div {
   padding: 0px;
 }
+
+button.deny {
+  color: rgb(52, 58, 64);
+}
+button.deny:hover {
+  background-color: rgb(52, 58, 64);
+  border-color: rgb(248, 249, 250);
+  color: rgb(248, 249, 250);
+}
+
+#btnAcceptCookie {
+  color: rgb(255, 255, 255);
+  background-color: rgb(26, 77, 127);
+  border-color: rgb(248, 249, 250);
+}
+
+#btnAcceptCookie:hover {
+  color: rgb(255, 255, 255);
+  background-color: rgb(135, 75, 11);
+  border-color: rgb(248, 249, 250);
+}
+
+/* ------------------------------------------------------- Enlace de identificacion */
+
+#login {
+  cursor: pointer;
+  display: block;
+  font-size: 1.1rem;
+  padding: 6px;
+  height: 150px;
+  color: #89b8c9;
+  text-decoration: none;
+}
+
+.user_card {
+  width: 600px;
+  height: 300px;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  background: #89b8c9;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 10px;
+  /* box-shadow: 0 4px 8px 0 rgba(72, 125, 119, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+  border-radius: 5px;
+}
+/* .brand_logo_container {
+  position: absolute;
+  height: 170px;
+  width: 170px;
+  top: -75px;
+  border-radius: 50%;
+  background: #60a3bc;
+  padding: 10px;
+  text-align: center;
+} */
+/* .brand_logo {
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  border: 2px solid white;
+} */
+.form_container {
+  margin-top: 20px;
+}
+.login_btn {
+  width: 100%;
+  background: #ffffff !important;
+  color: black !important;
+}
+
+.login_btn:hover {
+  width: 100%;
+  background: #1b1557 !important;
+  color: white !important;
+}
+.login_btn:focus {
+  box-shadow: none !important;
+  outline: 0px !important;
+}
+.login_container {
+  padding: 0 2rem;
+}
+.input-group-text {
+  background: #c0392b !important;
+  color: white !important;
+  border: 0 !important;
+  border-radius: 0.25rem 0 0 0.25rem !important;
+}
+.input_user,
+.input_pass:focus {
+  box-shadow: none !important;
+  outline: 0px !important;
+}
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
+  background-color: #c0392b !important;
+}
+
+#userArea a {
+  text-decoration: none;
+}
+
+#user_min {
+  font-size: 14px;
+}
+#user_min a {
+  font-size: 14px;
+  color: white;
+}
+
+#img_user {
+  width: 30px;
+}
+
+/* -------------------- */

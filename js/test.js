@@ -41,6 +41,7 @@ const historyActions = {
     ManagerApp.handleChangeDishForm();
     ManagerApp.handleChangeDishListByMenu(event.state.category);
   },
+  login: () => ManagerApp.handleLoginForm(),
 };
 
 history.replaceState({ action: "init" }, null);

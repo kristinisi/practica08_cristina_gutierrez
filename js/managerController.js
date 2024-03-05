@@ -1,13 +1,20 @@
+//importamos la función getCookie
+import { getCookie } from "./util.js";
+
 const MODEL = Symbol("RestaurantsManager");
 const VIEW = Symbol("ManagerView");
 const LOAD_RESTAURANTS_MANAGER_OBJECTS = Symbol(
   "Load Restaurants Manager Objects"
 );
+const AUTH = Symbol("AUTH");
+const USER = Symbol("USER");
 
 class ManagerController {
-  constructor(model, view) {
+  constructor(model, view, auth) {
     this[MODEL] = model;
     this[VIEW] = view;
+    this[AUTH] = auth;
+    this[USER] = null;
 
     //Invocamos el método onLoad para llamarlo cuando se cargue la página
     this.onLoad();
@@ -281,22 +288,27 @@ class ManagerController {
   }
 
   onLoad = () => {
+    //lo debemos hacer una unica vez al comienzo de la aplicación
+    if (getCookie("accetedCookieMessage") !== "true") {
+      this[VIEW].showCookiesMessage();
+    }
+
+    const userCookie = getCookie("activeUser");
+    if (userCookie) {
+      const user = this[AUTH].getUser(userCookie);
+      if (user) {
+        this[USER] = user;
+        this.onOpenSession();
+      }
+    } else {
+      this.onCloseSession();
+    }
+
     this[LOAD_RESTAURANTS_MANAGER_OBJECTS]();
     this.onAddCategory();
     this.onAddAllergen();
     this.onAddMenu();
     this.onAddRestaurant();
-    this.onAddAdmin();
-    this[VIEW].bindAdminMenu(
-      this.handleNewCategoryForm,
-      this.handleRemoveCategoryForm,
-      this.handleNewDishForm,
-      this.handleRemoveDishForm,
-      this.handleNewRestaurantForm,
-      this.handleAssignDishForm,
-      this.handleDesassignDishForm,
-      this.handleChangeDishForm
-    );
   };
 
   onInit = () => {
@@ -336,6 +348,32 @@ class ManagerController {
   onAddAdmin = () => {
     this[VIEW].showAdminMenu();
   };
+
+  onOpenSession() {
+    this.onInit();
+    this[VIEW].initHistory();
+    this[VIEW].showAuthUserProfile(this[USER]);
+    this[VIEW].bindCloseSession(this.handleCloseSession);
+    this.onAddAdmin();
+    this[VIEW].bindAdminMenu(
+      this.handleNewCategoryForm,
+      this.handleRemoveCategoryForm,
+      this.handleNewDishForm,
+      this.handleRemoveDishForm,
+      this.handleNewRestaurantForm,
+      this.handleAssignDishForm,
+      this.handleDesassignDishForm,
+      this.handleChangeDishForm
+    );
+  }
+
+  onCloseSession() {
+    this[USER] = null;
+    this[VIEW].deleteUserCookie();
+    this[VIEW].showIdentificationLink();
+    this[VIEW].bindIdentificationLink(this.handleLoginForm);
+    this[VIEW].removeAdminMenu();
+  }
 
   handleDishesCategoryList = (name) => {
     const category = this[MODEL].createCategory(name);
@@ -629,6 +667,29 @@ class ManagerController {
       error = exception;
     }
     this[VIEW].showChangeDishModal(done, menu_obj, error);
+  };
+
+  handleLoginForm = () => {
+    this[VIEW].showLogin();
+    this[VIEW].bindLogin(this.handleLogin);
+  };
+
+  handleLogin = (username, password, remember) => {
+    if (this[AUTH].validateUser(username, password)) {
+      this[USER] = this[AUTH].getUser(username);
+      this.onOpenSession();
+      if (remember) {
+        this[VIEW].setUserCookie(this[USER]);
+      }
+    } else {
+      this[VIEW].showInvalidUserMessage();
+    }
+  };
+
+  handleCloseSession = () => {
+    this.onCloseSession();
+    this.onInit();
+    this[VIEW].initHistory();
   };
 }
 export default ManagerController;
