@@ -3,11 +3,13 @@ import { getCookie } from "./util.js";
 
 const MODEL = Symbol("RestaurantsManager");
 const VIEW = Symbol("ManagerView");
+
+const AUTH = Symbol("AUTH");
+const USER = Symbol("USER");
+
 const LOAD_RESTAURANTS_MANAGER_OBJECTS = Symbol(
   "Load Restaurants Manager Objects"
 );
-const AUTH = Symbol("AUTH");
-const USER = Symbol("USER");
 
 class ManagerController {
   constructor(model, view, auth) {
@@ -288,9 +290,15 @@ class ManagerController {
   }
 
   onLoad = () => {
-    //lo debemos hacer una unica vez al comienzo de la aplicación
+    this[LOAD_RESTAURANTS_MANAGER_OBJECTS]();
+    this.onAddCategory();
+    this.onAddAllergen();
+    this.onAddMenu();
+    this.onAddRestaurant();
+
+    //lo debemos hacer una unica vez al comienzo de la aplicación-> ver mensaje de la cookie
     if (getCookie("accetedCookieMessage") !== "true") {
-      this[VIEW].showCookiesMessage();
+      this[VIEW].showCookiesMessage(); //muestra la cookie
     }
 
     const userCookie = getCookie("activeUser");
@@ -303,12 +311,6 @@ class ManagerController {
     } else {
       this.onCloseSession();
     }
-
-    this[LOAD_RESTAURANTS_MANAGER_OBJECTS]();
-    this.onAddCategory();
-    this.onAddAllergen();
-    this.onAddMenu();
-    this.onAddRestaurant();
   };
 
   onInit = () => {

@@ -1293,6 +1293,7 @@ class ManagerView {
     };
     const btnDenyCookie = document.getElementById("btnDenyCookie");
     btnDenyCookie.addEventListener("click", denyCookieFunction);
+
     const btnDismissCookie = document.getElementById("btnDismissCookie");
     btnDismissCookie.addEventListener("click", denyCookieFunction);
   }
